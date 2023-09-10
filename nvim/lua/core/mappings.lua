@@ -33,3 +33,12 @@ vim.keymap.set('n', '<leader>q', ':q<CR>')
 
 -- Restart Lsp
 vim.keymap.set('n', '<leader>lR', ':LspRestart<CR>')
+
+-------------------
+----- NeoTest -----
+-------------------
+
+vim.keymap.set('n', '<leader>tm', ':lua require("neotest").run.run()<cr>')
+vim.keymap.set('n', '<leader>tf', ':lua require("neotest").run.run(vim.fn.expand("%"))<cr>')
+vim.keymap.set('n', '<leader>ts', ':lua require("neotest").run.stop()<cr>')
+vim.keymap.set('n', '<leader>tt', ':lua require("neotest").summary.toggle()<cr>')

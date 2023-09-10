@@ -70,4 +70,23 @@ require("lazy").setup({
 
     -- Git
     {'tpope/vim-fugitive'},
+
+    --NeoTest
+    { 
+        "nvim-neotest/neotest",
+        dependencies = {
+            "nvim-lua/plenary.nvim",
+            "nvim-treesitter/nvim-treesitter",
+            "antoinemadec/FixCursorHold.nvim"
+        }
+    },
+
+    -- NeoTest Python
+    {'nvim-neotest/neotest-python'},
+
+    -- Nvim Dap 
+    {'mfussenegger/nvim-dap'},
+
+    -- Nvim Dap python 
+    {'mfussenegger/nvim-dap-python'},
 })
