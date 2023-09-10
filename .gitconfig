@@ -1,0 +1,8 @@
+[credential]
+	helper = store
+[alias]
+	st = status
+	co = checkout
+[user]
+	email = me@lokach.ru
+	name = Kazantsev Artem
