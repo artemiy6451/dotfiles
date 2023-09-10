@@ -1,0 +1,4 @@
+#!/bin/zsh
+
+emulate bash -c '. /home/lokach/.cache/pypoetry/virtualenvs/bulb-switcher-qQivfc5g-py3.10/bin/activate' && \
+python /home/lokach/code/bulb_switcher/main.py
