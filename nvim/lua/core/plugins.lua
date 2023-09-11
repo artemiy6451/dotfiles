@@ -89,4 +89,7 @@ require("lazy").setup({
 
     -- Nvim Dap python 
     {'mfussenegger/nvim-dap-python'},
+
+    -- Transparent
+    {'xiyaowong/transparent.nvim'},
 })
