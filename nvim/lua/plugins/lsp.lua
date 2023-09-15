@@ -11,6 +11,8 @@ for _, lsp in ipairs(servers) do
     }
 end
 
+lspconfig.bashls.setup{}
+
 lspconfig.lua_ls.setup {
     settings = {
         Lua = {
