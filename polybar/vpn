@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+vpn_up() {
+    config_file=$1
+    sudo wg-quick up "$config_file" > /dev/null
+    echo "$config_file"
+}
+
+vpn_down() {
+    config_file=$1
+    sudo wg-quick down "$config_file" > /dev/null
+    echo "vpn off"
+}
+
+is_vpn_connected() {
+    vpn_name=$(sudo wg show | head -n 1 | awk '{print $2}' | tr -d '[:space:]')
+    if [ -z "$vpn_name" ]; then
+        return 1
+    else
+        return 0
+    fi
+}
+
+get_connected_vpn_name(){
+    vpn_name=$(sudo wg show | head -n 1 | awk '{print $2}' | tr -d '[:space:]')
+    if [ -n "$vpn_name" ]; then
+        echo "$vpn_name"
+    fi
+}
+
+case $1 in
+    '')
+        if is_vpn_connected; then
+            get_connected_vpn_name
+        else
+            echo "vpn off"
+        fi
+        ;;
+    --set)
+        if is_vpn_connected; then
+            vpn_config_name=$(get_connected_vpn_name)
+        else
+            vpn_config_name=$(ls /etc/wireguard/ | grep .conf | sed 's/.conf//' | rofi -dmenu -p "Select vpn:")
+        fi
+
+        if is_vpn_connected "$vpn_config_name"; then
+            vpn_down "$vpn_config_name"
+        else
+            vpn_up "$vpn_config_name"
+        fi
+        ;;
+esac
