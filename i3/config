@@ -54,6 +54,7 @@ bindsym $mod+space focus mode_toggle
 bindsym $mod+a focus parent
 
 # Define names for default workspaces for which we configure key bindings later on.
+set $ws0 "0"
 set $ws1 "1"
 set $ws2 "2"
 set $ws3 "3"
@@ -63,7 +64,7 @@ set $ws6 "6"
 set $ws7 "7"
 set $ws8 "8"
 set $ws9 "9"
-set $ws10 "10"
+# set $ws10 "10"
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -75,7 +76,7 @@ bindsym $mod+6 workspace number $ws6
 bindsym $mod+7 workspace number $ws7
 bindsym $mod+8 workspace number $ws8
 bindsym $mod+9 workspace number $ws9
-bindsym $mod+0 workspace number $ws10
+bindsym $mod+0 workspace number $ws0
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
@@ -95,6 +96,12 @@ bindsym $mod+Shift+c reload
 bindsym $mod+Shift+r restart
 # exit i3 (logs you out of your X session)
 bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
+# power mannager
+set $Locker i3lock-fancy -t "Locked at: $(date +'%b %d %H:%M:%S')"
+
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+
+bindsym $mod+Pause exec --no-startup-id $Locker
 
 # resize window (you can also use the mouse for that)
 mode "resize" {
@@ -113,6 +120,8 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+bindsym Print exec "flameshot gui &"
+
 ##########################
 ##########################
 ####
@@ -126,17 +135,20 @@ exec_always setxkbmap -layout 'us,ru' -option 'grp:caps_toggle'
 exec_always --no-startup-id $HOME/.config/polybar/launch.sh
 
 exec google-chrome-stable
+# exec google-chrome-stable --incognito
 exec alacritty
 exec obsidian
 exec telegram-desktop
-exec --no-startup-id picom
+exec --no-startup-id picom -CGb 
 exec --no-startup-id xsetroot -solid "#333333"
-
+exec --no-startup-id feh --bg-scale ~/Downloads/space2.jpg
+ 
 ##==================================================##
 #          *** Workspace specific settings ***       #
 ##==================================================##
 # Assign Workspaces:
 assign [class="Google-chrome"] $ws1
-assign [class="Alacritty"] $ws2
-assign [class="obsidian"] $ws3
-assign [class="TelegramDesktop"] $ws3
+for_window [title="New Incognito Tab - Google Chrome"] move to workspace $ws0
+assign [class="Alacritty"] $ws3
+assign [class="obsidian"] $ws4
+assign [class="TelegramDesktop"] $ws4
