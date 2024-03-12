@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+if [ -n "$TMUX" ]; then
+    tmux list-sessions | awk -F: '{print $1}' | fzf | xargs -I{} tmux switch-client -t "{}"
+else
+    echo "You have not started tmux!"
+fi
+
+
