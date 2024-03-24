@@ -152,3 +152,4 @@ for_window [title="New Incognito Tab - Google Chrome"] move to workspace $ws0
 assign [class="Alacritty"] $ws3
 assign [class="obsidian"] $ws4
 assign [class="TelegramDesktop"] $ws4
+assign [class="Spotify"] $ws5
