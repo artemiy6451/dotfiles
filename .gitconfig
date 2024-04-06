@@ -6,3 +6,10 @@
 [user]
 	email = me@lokach.ru
 	name = Kazantsev Artem
+	signingkey = 482F6BF071C3F77B
+[core]
+	editor = nvim
+[init]
+	defaultBranch = main
+[commit]
+	gpgsign = true

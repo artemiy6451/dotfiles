@@ -99,7 +99,26 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-export PATH=$PATH:$HOME/.python/python3.11.5/bin
+
+# export binary path
 export PATH=$PATH:$HOME/.local/bin
-alias python="python3.11"
-alias pip="pip3.11"
+export PATH=$PATH:$HOME/go/bin
+export PATH=$PATH:$HOME/personal/.scripts/
+source ~/.zprofile
+
+# default editor
+alias v="nvim"
+export EDITOR='mvim'
+
+# key bindings
+bindkey -s ^f "tmux-sessionizer\n"
+
+# setupe ssh with gpg
+unset SSH_AGENT_PID
+if [ "${gnupg_SSH_AUTH_SOCK_by:-0}" -ne $$ ]; then
+  export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
+fi
+export GPG_TTY=$(tty)
+gpg-connect-agent updatestartuptty /bye >/dev/null
+
+# custom app execution

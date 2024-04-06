@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "custom-modules"
+version = "0.1.0"
+description = ""
+authors = ["Kazantsev Artem <me@lokach.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pygobject = "^3.48.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

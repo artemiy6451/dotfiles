@@ -6,4 +6,3 @@ else
     echo "You have not started tmux!"
 fi
 
-
