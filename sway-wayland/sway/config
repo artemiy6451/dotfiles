@@ -29,7 +29,16 @@ output * bg ~/Downloads/wallpapers.jpg fill
 #
 # Example configuration:
 #
-output HDMI-A-1 resolution 1920x1080 position 1920,0
+output HDMI-A-1 
+{
+    resolution 1920x1080
+    position 0,0
+}
+
+# output HEADLESS-1 {
+    # pos 0,1080
+    # mode 1920x1200
+# }
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
@@ -128,6 +137,7 @@ input * {
     bindsym $mod+Shift+0 move container to workspace number 10
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
+    # workspace 0 output HEADLESS-1 
 #
 # Layout stuff:
 #
@@ -205,6 +215,7 @@ exec telegram-desktop
 exec alacritty
 exec obsidian -disable-gpu -ozone-platform=wayland
 exec spotify
+# exec wayvnc --output=HDMI-A-1 --max-fps=60 192.168.0.101 5900 & 
 
 
 # alias for applications

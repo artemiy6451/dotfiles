@@ -108,7 +108,7 @@ source ~/.zprofile
 
 # default editor
 alias v="nvim"
-export EDITOR='mvim'
+export EDITOR='nvim'
 
 # key bindings
 bindkey -s ^f "tmux-sessionizer\n"
