@@ -1,4 +1,4 @@
-#!/home/lokach/personal/dotfiles/sway-wayland/waybar/custom-modules/.venv/bin/python
+#!/home/lokach/personal/dotfiles/waybar/custom-modules/.venv/bin/python
 import gi
 gi.require_version("Playerctl", "2.0")
 from gi.repository import Playerctl, GLib

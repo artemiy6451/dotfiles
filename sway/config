@@ -231,5 +231,6 @@ bindsym Print exec grim -g "$(slurp)" - | wl-copy
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
+bindsym $mod+Shift+v exec ~/.config/.scripts/vpn --set
 
 include @sysconfdir@/sway/config.d/*

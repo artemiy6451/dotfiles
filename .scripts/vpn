@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
 
+STATUS_CONNECTED_STR='{"text":"Connected","class":"connected","alt":"connected"}'
+STATUS_DISCONNECTED_STR='{"text":"Disconnected","class":"disconnected","alt":"disconnected"}'
+
 vpn_up() {
     config_file=$1
     sudo wg-quick up "$config_file" > /dev/null
-    echo "$config_file"
+    echo $STATUS_CONNECTED_STR 
 }
 
 vpn_down() {
     config_file=$1
     sudo wg-quick down "$config_file" > /dev/null
-    echo "vpn off"
+    echo $STATUS_DISCONNECTED_STR
 }
 
 is_vpn_connected() {
@@ -31,16 +34,16 @@ get_connected_vpn_name(){
 case $1 in
     '')
         if is_vpn_connected; then
-            get_connected_vpn_name
+            echo $STATUS_CONNECTED_STR
         else
-            echo "vpn off"
+            echo $STATUS_DISCONNECTED_STR 
         fi
         ;;
     --set)
         if is_vpn_connected; then
             vpn_config_name=$(get_connected_vpn_name)
         else
-            vpn_config_name=$(ls /etc/wireguard/ | grep .conf | sed 's/.conf//' | rofi -dmenu -p "Select vpn:")
+            vpn_config_name=$(ls /etc/wireguard/ | grep .conf | sed 's/.conf//' | wofi --dmenu -p "Select vpn:")
         fi
 
         if is_vpn_connected "$vpn_config_name"; then
