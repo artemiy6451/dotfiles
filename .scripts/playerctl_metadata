@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+
+while true; do
+    playerctl -l | while read player; do
+        status=$(playerctl --player=$player status 2>/dev/null)
+        if [ "$status" == "Playing" ]; then
+            title=$(playerctl --player=$player metadata title 2>/dev/null)
+            artist=$(playerctl --player=$player metadata artist 2>/dev/null)
+            elapsed=$(playerctl --player=$player position 2>/dev/null)
+            duration=$(playerctl --player=$player metadata mpris:length 2>/dev/null)
+
+            # Convert elapsed and duration to seconds
+            elapsed_sec=$(printf "%.0f" "$elapsed") # Round elapsed time
+            duration_sec=$((duration / 1000000))
+
+            # Format elapsed time as MM:SS
+            elapsed_min=$((elapsed_sec / 60))
+            elapsed_rem=$((elapsed_sec % 60))
+            formatted_elapsed=$(printf "%d:%02d" $elapsed_min $elapsed_rem)
+
+            # Format total time as MM:SS
+            duration_min=$((duration_sec / 60))
+            duration_rem=$((duration_sec % 60))
+            formatted_duration=$(printf "%d:%02d" $duration_min $duration_rem)
+
+            text="$artist - $title  $formatted_elapsed/$formatted_duration"
+
+            jq -c -n \
+                --arg player "$player" \
+                --arg text "$text" \
+                '{"class": $player, "alt": $player, "text": $text}'
+
+            break 
+        fi
+    done
+
+    # Default output when no player is active
+    if [ $? -ne 0 ]; then
+        jq -c -n '{"class": "no-player", "alt": "no-player", "text": "No media playing"}'
+    fi
+
+    sleep 0.2  # Update every 0.2 seconds (5 times per second)
+done

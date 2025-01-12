@@ -75,7 +75,7 @@ index = 17
 color = "#F4DBD6"
 
 [font]
-size = 12
+size = 14
 
 [font.bold]
 family = "JetBrainsMono Nerd Font Mono"
@@ -130,7 +130,7 @@ mods = "Command"
 [window]
 decorations = "full"
 dynamic_padding = true
-opacity = 1
+opacity = 0.75
 
 [window.padding]
 x = 0
@@ -139,6 +139,8 @@ y = 0
 [env]
 TERM = "xterm-256color"
 
-[shell]
+[terminal]
+
+[terminal.shell]
 program = "/usr/bin/tmux"
 args = ["new-session", "-A", "-s", "main"]

@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+playerctl -l | while read player; do
+        playerctl --player=$player play-pause
+done

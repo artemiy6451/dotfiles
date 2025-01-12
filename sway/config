@@ -29,10 +29,20 @@ output * bg ~/Downloads/wallpapers.jpg fill
 #
 # Example configuration:
 #
-output HDMI-A-1 
+output HDMI-A-2 
 {
-    resolution 1920x1080
-    position 0,0
+    mode 1920x1080
+    pos 0,0
+}
+
+output eDP-1 scale 1
+
+
+input type:touchpad {
+    dwt disable
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
 }
 
 # output HEADLESS-1 {
@@ -137,7 +147,6 @@ input * {
     bindsym $mod+Shift+0 move container to workspace number 10
     # Note: workspaces can have any name you want, not just numbers.
     # We just use 1-10 as the default.
-    # workspace 0 output HEADLESS-1 
 #
 # Layout stuff:
 #
@@ -183,10 +192,10 @@ mode "resize" {
     # right will grow the containers width
     # up will shrink the containers height
     # down will grow the containers height
-    bindsym $left resize shrink width 10px
+    bindsym $left resize grow width 10px
     bindsym $down resize grow height 10px
     bindsym $up resize shrink height 10px
-    bindsym $right resize grow width 10px
+    bindsym $right resize shrink width 10px
 
     # Ditto, with arrow keys
     bindsym Left resize shrink width 10px
@@ -210,27 +219,42 @@ bar {
 }
 
 # auto exec applications
-exec google-chrome-stable
-exec telegram-desktop
+exec firefox
 exec alacritty
-exec obsidian -disable-gpu -ozone-platform=wayland
-exec spotify
+exec telegram-desktop
+# exec obsidian -disable-gpu -ozone-platform=wayland
+# exec spotify-launcher
+exec swaync
 # exec wayvnc --output=HDMI-A-1 --max-fps=60 192.168.0.101 5900 & 
 
 
 # alias for applications
-assign [app_id="google-chrome"] 1
+assign [app_id="firefox"] 1
 assign [app_id="Alacritty"] 2
 assign [app_id="org.telegram.desktop"] 3
-assign [title="New Incognito Tab - Google Chrome"] 0
 assign [app_id="obsidian"] 4
 assign [class="Spotify"] 5
 
 # custom bindings
 bindsym Print exec grim -g "$(slurp)" - | wl-copy
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
-bindsym $mod+Shift+v exec ~/.config/.scripts/vpn --set
+bindsym $mod+Shift+b exec blueberry
+
+bindsym $mod+Ctrl+Space exec /home/lokach/personal/dotfiles/.scripts/play_pause
+bindsym $mod+Ctrl+Right exec playerctl next
+bindsym $mod+Ctrl+Left exec playerctl previous
+bindsym $mod+Ctrl+Up exec /home/lokach/personal/dotfiles/.scripts/volume_up
+bindsym $mod+Ctrl+Down exec /home/lokach/personal/dotfiles/.scripts/volume_down
+
+# Sound control
+bindsym XF86AudioMute exec pactl set-sink-mute alsa_output.pci-0000_00_1f.3.analog-stereo toggle
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume alsa_output.pci-0000_00_1f.3.analog-stereo -5%
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume alsa_output.pci-0000_00_1f.3.analog-stereo +5%
+bindsym XF86AudioMicMute exec pactl set-source-mute alsa_input.pci-0000_00_1f.3.analog-stereo toggle
+
+# Light control
+bindsym --locked XF86MonBrightnessUp exec light -A 5 
+bindsym --locked XF86MonBrightnessDown exec light -U 5
+
+
 
 include @sysconfdir@/sway/config.d/*

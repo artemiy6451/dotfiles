@@ -103,7 +103,9 @@ source $ZSH/oh-my-zsh.sh
 # export binary path
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/go/bin
-export PATH=$PATH:$HOME/personal/.scripts/
+export PATH=$PATH:$HOME/.scripts/
+export PATH=$HOME/.python/python3.12.7/bin:$PATH
+fpath=($HOME/completion_zsh $fpath)
 source ~/.zprofile
 
 # default editor

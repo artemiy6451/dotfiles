@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+playerctl -l | while read player; do
+    if [ "$(playerctl --player=$player status 2>/dev/null)" == "Playing" ]; then
+        playerctl --player=$player volume 0.05+
+        break
+    fi
+done

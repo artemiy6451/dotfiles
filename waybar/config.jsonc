@@ -8,21 +8,26 @@
     // "modules-right": ["custom/wireguard-manager", "cpu", "memory", "pulseaudio", "bluetooth", "network", "tray"],
     "modules-left": [
         "sway/workspaces",
-        "custom/weather",
-        "custom/media"
+        // "custom/weather",
+        "network",
+        "tray"
+        // "custom/timer"
     ],
     "modules-center": [
+        "temperature",
         "cpu",
-        "pulseaudio",
         "memory"
     ],
     "modules-right": [
-        "custom/wireguard-manager",
+        // "custom/wireguard-manager",
+        "custom/media",
         "bluetooth",
-        "network",
-        "sway/language",
+        "pulseaudio",
+        // "backlight",
+	    "battery",
         "clock",
-        "tray"
+        "sway/language",
+        "custom/notification",
     ],
     // Modules configuration
     "sway/workspaces": {
@@ -30,16 +35,64 @@
         "all-outputs": true,
         "format": "{icon}",
         "format-icons": {
-            "1": "<span color=\"#e5c890\">1</span>",
-            "2": "<span color=\"#a6d189\">2</span>",
-            "3": "<span color=\"#99d1db\">3</span>",
-            "4": "<span color=\"#ca9ee6\">4</span>",
-            "5": "<span color=\"#a6d189\">5</span>",
-            "6": "<span color=\"#D8DEE9\">6</span>",
-            // "urgent": "",
-            // "focused": "",
-            "default": ""
+            "1": "<span color=\"#e5c890\"></span>",
+            "2": "<span color=\"#a6d189\"></span>",
+            "3": "<span color=\"#99d1db\"></span>",
+            "4": "<span color=\"#ca9ee6\"></span>",
+            "5": "<span color=\"#a6d189\"></span>",
+            "6": "<span color=\"#D8DEE9\"></span>",
+            "focused": "<span color=\"#f2d5cf\"></span>",
+            // "default": ""
         }
+    },
+    "custom/timer": {
+        "exec": "/home/lokach/personal/dotfiles/waybar/custom-modules/waybar-timer.sh updateandprint",
+        "exec-on-event": true,
+        "return-type": "json",
+        "interval": 5,
+        "signal": 4,
+        "format": "{icon} {0}",
+        "format-icons": {
+            "standby": "",
+            "running": "",
+            "paused": "PAUSE"
+        },
+        "on-click": "/home/lokach/personal/dotfiles/waybar/custom-modules/waybar-timer.sh new 60 'notify-send \"Session finished\"'",
+        "on-click-middle": "/home/lokach/personal/dotfiles/waybar/custom-modules/waybar-timer.sh cancel",
+        "on-click-right": "/home/lokach/personal/dotfiles/waybar/custom-modules/waybar-timer.sh togglepause",
+        "on-scroll-up": "/home/lokach/personal/dotfiles/waybar/custom-modules/waybar-timer.sh increase 60 || /home/lokach/personal/dotfiles/waybar/custom-modules/waybar-timer.sh new 1 'notify-send -u critical \"Timer expired.\"'",
+        "on-scroll-down": "/home/lokach/personal/dotfiles/waybar/custom-modules/waybar-timer.sh increase -60"
+    },
+    "custom/notification": {
+        "tooltip": false,
+        "format": "{icon}",
+        "format-icons": {
+            "notification": "<span foreground='red'><sup></sup></span>",
+            "none": "",
+            "dnd-notification": "<span foreground='red'><sup></sup></span>",
+            "dnd-none": "",
+            "inhibited-notification": "<span foreground='red'><sup></sup></span>",
+            "inhibited-none": "",
+            "dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
+            "dnd-inhibited-none": ""
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true,
+    },
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+    },
+    "backlight": {
+        "device": "intel_backlight",
+        "format": "{icon}",
+        "format-icons": ["", "", "", "", "", "", "", "", ""],
     },
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
@@ -55,14 +108,12 @@
         // "format-alt": "{status}",
         "format-icons": {
             "enabled": "",
-            "disabled": ""
+            "disabled": ""
         },
-        "on-click": "blueberry"
+        "on-click": "blueberry",
     },    
     "sway/language": {
-        "format": "   {}",
-        "max-length": 5,
-        "min-length": 5,        
+        "format": "{}",
     },
     "idle_inhibitor": {
         "format": "{icon}",
@@ -80,19 +131,15 @@
         "format": "  {:%H:%M    %e %b}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "today-format": "<b>{}</b>",
-        "on-click": "gnome-calendar"
     },
     "cpu": {
         "interval": 1,      
         "format": "  {max_frequency}GHz <span color=\"darkgray\">| {usage}%</span>",
-        "max-length": 13,
-        "min-length": 13,
-        "on-click": "kitty -e htop --sort-key PERCENT_CPU",
         "tooltip": false
     },
     "memory": {
         "interval": 1,
-        "format": "{}% "
+        "format": "{}% ",
     },
     "network": {
         // "interface": "wlan0", // (Optional) To force the use of this interface,
@@ -100,17 +147,15 @@
         "format-wifi": "  {essid}",
         "format-ethernet": "  {bandwidthUpBits}    {bandwidthDownBits}",
         "format-linked": "{ifname} (No IP) ",
-        "format-disconnected": "",
+        "format-disconnected": "",
         "format-alt": "{ifname}: {ipaddr}/{cidr}",
         "family": "ipv4",
         "tooltip-format-wifi": "  {ifname} @ {essid}\nIP: {ipaddr}\nStrength: {signalStrength}%\nFreq: {frequency}MHz\n {bandwidthUpBits}  {bandwidthDownBits}",
         "tooltip-format-ethernet": "   {ifname}\nIP: {ipaddr}\n {bandwidthUpBits}  {bandwidthDownBits}",
-        "max-length": 18,
-        "min-length": 18,        
     },
     "pulseaudio": {
         "scroll-step": 3, // %, can be a float
-        "format": "{icon} {volume}% {format_source}",
+        "format": "{icon} {volume}%",
         "format-bluetooth": "{volume}% {icon} {format_source}",
         "format-bluetooth-muted": " {icon} {format_source}",
         "format-muted": " {format_source}",
@@ -128,23 +173,24 @@
             "default": [" ", " ", "  "]
         },
         "on-click": "pavucontrol",
-        "on-click-right": "pactl set-source-mute @DEFAULT_SOURCE@ toggle"
+        "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
     },
     "custom/weather": {
         "exec": "~/.config/.scripts/weather",
         "interval": 3600
     },
     "custom/media": {
-        "format": "{icon} {} <span color=\"#EBCB8B\"> - {}%</span>",
+        "format": "{}",
+        "exec": "/home/lokach/personal/dotfiles/.scripts/playerctl_metadata",
         "return-type": "json",
         "format-icons": {
-            "default": "󰕼"
+            "spotify": "",
+            "firefox": "",
+            "vlc": "󰕼",
+            "default": ""
         },
-        "on-scroll-up": "~/.config/waybar/custom-modules/mediaplayer.py --volume_up 3 2> /dev/null",
-        "on-scroll-down": "~/.config/waybar/custom-modules/mediaplayer.py --volume_down 3 2> /dev/null",
-        "on-update": "~/.config/waybar/custom-modules/mediaplayer.py 2> /dev/null",
-         
-        "exec": "~/.config/waybar/custom-modules/mediaplayer.py 2> /dev/null",
+        "interval": 0,
+
     },
     "custom/wireguard-manager": {
         "exec": "exec ~/.config/.scripts/vpn",
