@@ -8,7 +8,6 @@
     // "modules-right": ["custom/wireguard-manager", "cpu", "memory", "pulseaudio", "bluetooth", "network", "tray"],
     "modules-left": [
         "sway/workspaces",
-        // "custom/weather",
         "network",
         "tray"
         // "custom/timer"
@@ -20,10 +19,12 @@
     ],
     "modules-right": [
         // "custom/wireguard-manager",
-        "custom/media",
+        // "custom/media",
+        "custom/weather",
         "bluetooth",
         "pulseaudio",
-        // "backlight",
+        "backlight",
+	    "custom/keyboard-battery",
 	    "battery",
         "clock",
         "sway/language",
@@ -35,13 +36,13 @@
         "all-outputs": true,
         "format": "{icon}",
         "format-icons": {
-            "1": "<span color=\"#e5c890\"></span>",
-            "2": "<span color=\"#a6d189\"></span>",
-            "3": "<span color=\"#99d1db\"></span>",
-            "4": "<span color=\"#ca9ee6\"></span>",
-            "5": "<span color=\"#a6d189\"></span>",
-            "6": "<span color=\"#D8DEE9\"></span>",
-            "focused": "<span color=\"#f2d5cf\"></span>",
+            "1": "<span color=\"#a6d189\"></span>",
+            "2": "<span color=\"#e5c890\"></span>",
+            "3": "<span color=\"#99d1db\"></span>",
+            "4": "<span color=\"#ca9ee6\"></span>",
+            "5": "<span color=\"#a6d189\"></span>",
+            "6": "<span color=\"#D8DEE9\"></span>",
+            // "focused": "",
             // "default": ""
         }
     },
@@ -85,14 +86,16 @@
     },
     "battery": {
         "states": {
-            "warning": 30,
-            "critical": 15
+            "warning": 25,
+            "critical": 5,
         },
+        "format": "{capacity}% {icon}",
+        "format-icons": ["", "", "", "", ""],
+        "max-length": 25
     },
     "backlight": {
         "device": "intel_backlight",
-        "format": "{icon}",
-        "format-icons": ["", "", "", "", "", "", "", "", ""],
+        "format": " {percent}%"
     },
     "sway/mode": {
         "format": "<span style=\"italic\">{}</span>"
@@ -124,17 +127,17 @@
         "tooltip": "true"
     },
     "tray": {
-        //"icon-size": 11,
+        // "icon-size": 11,
         "spacing": 5
     },
     "clock": {
-        "format": "  {:%H:%M    %e %b}",
+        "format": "{:%H:%M %e %b}",
         "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
         "today-format": "<b>{}</b>",
     },
     "cpu": {
         "interval": 1,      
-        "format": "  {max_frequency}GHz <span color=\"darkgray\">| {usage}%</span>",
+        "format": "  {max_frequency} <span color=\"darkgray\">| {usage}%</span>",
         "tooltip": false
     },
     "memory": {
@@ -203,5 +206,9 @@
         "on-click": "~/.config/.scripts/vpn --set",
         "return-type": "json",
         "signal": 1,
+    },
+	"custom/keyboard-battery" : {
+        "exec": "exec ~/.config/.scripts/keyborad_battery",
+        "interval": 120
     }
 }

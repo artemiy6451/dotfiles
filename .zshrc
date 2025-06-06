@@ -104,6 +104,7 @@ source $ZSH/oh-my-zsh.sh
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/go/bin
 export PATH=$PATH:$HOME/.scripts/
+export PATH=$HOME/.python/python3.11.3/bin:$PATH
 export PATH=$HOME/.python/python3.12.7/bin:$PATH
 fpath=($HOME/completion_zsh $fpath)
 source ~/.zprofile
@@ -124,3 +125,10 @@ export GPG_TTY=$(tty)
 gpg-connect-agent updatestartuptty /bye >/dev/null
 
 # custom app execution
+export PATH=/usr/lib/qt6/bin:$PATH
+
+## [Completion]
+## Completion scripts setup. Remove the following line to uninstall
+[[ -f /home/lokach/.dart-cli-completion/zsh-config.zsh ]] && . /home/lokach/.dart-cli-completion/zsh-config.zsh || true
+## [/Completion]
+

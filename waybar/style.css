@@ -46,17 +46,17 @@
 #bluetooth,
 #language,
 #custom-notification,
-#custom-weather,
 #pulseaudio,
 #network,
 #custom-lock,
-#custom-power {
+#custom-power,
+#custom-keyboard-battery
+{
   background-color: @surface0;
   padding: 0.5rem 0.5rem;
   margin: 5px 0;
 }
 
-#custom-weather,
 #network,
 #language,
 #custom-timer,
@@ -67,11 +67,19 @@
 
 #temperature,
 #bluetooth,
-#custom-weather,
 #language {
   background-color: @surface0;
   border-radius: 1rem 0px 0px 1rem;
   margin-left: 1rem;
+}
+
+
+#custom-weather {
+  background-color: @surface0;
+  border-radius: 1rem;
+  margin-right: 1rem;
+  padding: 0.5rem 0.5rem;
+  margin: 5px 0;
 }
 
 #memory,
@@ -89,7 +97,8 @@
     margin-right: 0.5rem;
 }
 
-#bluetooth {
+#bluetooth,
+#custom-keyboard-battery {
     color: @blue
 }
 

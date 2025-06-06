@@ -226,6 +226,7 @@ exec telegram-desktop
 # exec spotify-launcher
 exec swaync
 # exec wayvnc --output=HDMI-A-1 --max-fps=60 192.168.0.101 5900 & 
+exec_always --no-startup-id ~/.scripts/battery_notification
 
 
 # alias for applications
@@ -254,7 +255,5 @@ bindsym XF86AudioMicMute exec pactl set-source-mute alsa_input.pci-0000_00_1f.3.
 # Light control
 bindsym --locked XF86MonBrightnessUp exec light -A 5 
 bindsym --locked XF86MonBrightnessDown exec light -U 5
-
-
 
 include @sysconfdir@/sway/config.d/*

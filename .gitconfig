@@ -13,3 +13,6 @@
 	defaultBranch = main
 [commit]
 	gpgsign = true
+[http]
+	postBuffer = 524288000
+	maxRequests = 100

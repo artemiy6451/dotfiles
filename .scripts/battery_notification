@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# Thresholds
+WARNING_BATTERY_LEVEL=25
+LOW_BATTERY_LEVEL=15
+CRITICAL_BATTERY_LEVEL=5
+
+WARNING_SENT=0
+LOW_SENT=0
+CRITICAL_SENT=0
+
+get_capacity() {
+    BAT0="/sys/class/power_supply/BAT0"
+    BAT1="/sys/class/power_supply/BAT1"
+
+    if [ -d "$BAT0" ] && [ -d "$BAT1" ]; then
+        CAP0=$(cat "$BAT0/capacity")
+        CAP1=$(cat "$BAT1/capacity")
+
+        STATUS0=$(cat "$BAT0/status")
+        STATUS1=$(cat "$BAT1/status")
+
+        # Average the capacities
+        TOTAL_CAPACITY=$(( (CAP0 + CAP1) / 2 ))
+
+        # Consider "Discharging" if either battery is discharging
+        if [ "$STATUS0" = "Discharging" ] || [ "$STATUS1" = "Discharging" ]; then
+            STATUS="Discharging"
+        else
+            STATUS="Charging"
+        fi
+
+        echo "$TOTAL_CAPACITY $STATUS"
+    else
+        echo "unknown unknown"
+    fi
+}
+
+while true; do
+    read CAPACITY STATUS <<< "$(get_capacity)"
+    echo $CAPACITY $STATUS
+
+    if [ "$STATUS" = "Discharging" ]; then
+        if [ "$CAPACITY" -le "$CRITICAL_BATTERY_LEVEL" ] && [ "$CRITICAL_SENT" -eq 0 ]; then
+            notify-send -u critical "🔌 Battery Critically Low" "Battery at ${CAPACITY}%!"
+            CRITICAL_SENT=1
+            LOW_SENT=1
+        elif [ "$CAPACITY" -le "$LOW_BATTERY_LEVEL" ] && [ "$LOW_SENT" -eq 0 ]; then
+            notify-send -u normal "🔋 Low Battery" "Battery at ${CAPACITY}%"
+            LOW_SENT=1
+        elif [ "$CAPACITY" -le "$WARNING_BATTERY_LEVEL" ] && [ "$WARNING_SENT" -eq 0 ]; then
+            notify-send -u low "🔋 Battery close to low" "Battery at ${CAPACITY}%"
+            WARNING_SENT=1
+        elif [ "$CAPACITY" -gt "$WARNING_BATTERY_LEVEL" ]; then
+            LOW_SENT=0
+            CRITICAL_SENT=0
+            WARNING_SENT=0
+        fi
+    else
+        LOW_SENT=0
+        CRITICAL_SENT=0
+        WARNING_SENT=0
+    fi
+
+    sleep 1
+done
